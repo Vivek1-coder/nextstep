@@ -1,103 +1,209 @@
-import Image from "next/image";
+'use client'
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import React, { useState, useEffect } from "react";
 
-export default function Home() {
+
+
+
+
+// Features data and checkmark icon remain the same
+const features = [
+  {
+    category: "Core Features",
+    emoji: "🚀",
+    items: [
+      "Career Path Recommendations based on your profile",
+      "Personality & Aptitude Assessments",
+      "Resume Analyzer with improvement tips",
+      "Skill Gap Analysis & course suggestions",
+      "College & Major Selector",
+    ],
+  },
+  {
+    category: "Mentorship & Guidance",
+    emoji: "🧑‍🏫",
+    items: [
+      "Virtual Mentor Chatbot",
+      "Connect with Seniors & Alumni",
+      "Career Stories Library",
+    ],
+  },
+  {
+    category: "Learning & Resources",
+    emoji: "📚",
+    items: [
+      "Personalized Course Recommendations",
+      "AI-led Mock Interviews & Quizzes",
+      "Internship & Job Matching",
+    ],
+  },
+  {
+    category: "Planning & Tracking",
+    emoji: "🗺️",
+    items: [
+      "Visual Career Roadmap Builder",
+      "Goal Setting & Progress Tracker",
+    ],
+  },
+  {
+    category: "Community & Networking",
+    emoji: "🤝",
+    items: [
+      "Career Forums & Peer Discussions",
+      "Live Q&A Sessions & Expert Webinars",
+    ],
+  },
+  {
+    category: "Bonus Features",
+    emoji: "🎁",
+    items: [
+      "Anonymous Doubt Section",
+      "Multilingual Support",
+    ],
+  },
+];
+
+const CheckIcon = () => (
+  <svg
+    className="w-5 h-5 inline-block mr-2 text-indigo-500 dark:text-indigo-400 flex-shrink-0"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={3}
+    viewBox="0 0 24 24"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M5 13l4 4L19 7" />
+  </svg>
+);
+
+const LandingPage: React.FC = () => {
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [contentVisible, setContentVisible] = useState(false);
+
+  useEffect(() => {
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      setTheme("dark");
+      document.documentElement.classList.add("dark");
+    }
+    // Animate content fade-in on mount
+    setTimeout(() => setContentVisible(true), 200);
+  }, []);
+
+  // Toggle theme from here to sync with Navbar if needed
+  const toggleTheme = () => {
+    if (theme === "light") {
+      setTheme("dark");
+      document.documentElement.classList.add("dark");
+    } else {
+      setTheme("light");
+      document.documentElement.classList.remove("dark");
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="w-full min-h-screen flex flex-col bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-500 relative overflow-x-hidden">
+      <Navbar />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <main className="w-full max-w-7xl mx-auto flex-grow px-6 py-24 flex flex-col gap-16 md:gap-28">
+        {/* Hero Section */}
+        <section
+          className={`flex flex-col items-center text-center max-w-4xl mx-auto
+          transition-all duration-1000 ease-out
+          ${contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
+          `}
+          style={{ willChange: "opacity, transform" }}
+        >
+          <h1
+            className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight
+            bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text"
+            aria-label="Welcome to NxtStep"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
+            Unlock Your Future with <br /> NxtStep 
+          </h1>
+          <p className="text-lg md:text-xl max-w-xl mx-auto mb-8 leading-relaxed text-gray-700 dark:text-gray-300">
+            Your AI-powered personal career guidance companion — personalized, insightful,
+            and designed to help you make the best career decisions.
+          </p>
           <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#features"
+            className="inline-block px-8 py-4 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600
+            text-white font-semibold rounded-lg shadow-lg
+            transform hover:scale-105 transition-transform duration-300"
           >
-            Read our docs
+            Explore Features
           </a>
-        </div>
+        </section>
+
+        {/* Features Section */}
+        <section id="features" className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
+          {features.map(({ category, emoji, items }) => (
+            <article
+              key={category}
+              className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-xl p-6 shadow-lg
+                hover:shadow-indigo-500/40 hover:scale-[1.04] transition-transform duration-300
+                border border-transparent hover:border-indigo-400
+                flex flex-col"
+              tabIndex={0}
+              aria-labelledby={`${category}-heading`}
+              role="region"
+            >
+              <h3
+                id={`${category}-heading`}
+                className="text-xl font-semibold mb-4 flex items-center gap-2 select-none"
+              >
+                <span aria-hidden="true" className="text-2xl">{emoji}</span>
+                {category}
+              </h3>
+              <ul className="flex flex-col gap-3 text-gray-700 dark:text-gray-300">
+                {items.map((item) => (
+                  <li key={item} className="flex items-start gap-1">
+                    <CheckIcon /> {item}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+      {/* Subtle SVG background animation */}
+      <svg
+        aria-hidden="true"
+        className="fixed top-0 left-0 w-full h-full pointer-events-none opacity-10 dark:opacity-5"
+        style={{ zIndex: 0 }}
+      >
+        <defs>
+          <pattern
+            id="pattern-circles"
+            x="0"
+            y="0"
+            width="80"
+            height="80"
+            patternUnits="userSpaceOnUse"
+          >
+            <circle cx="20" cy="20" r="8" stroke="none" fill="url(#grad1)" />
+            <circle cx="60" cy="60" r="8" stroke="none" fill="url(#grad2)" />
+          </pattern>
+          <radialGradient id="grad1" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#7c3aed" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="grad2" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#818cf8" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#4338ca" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#pattern-circles)" />
+      </svg>
+      <Footer/>
     </div>
   );
-}
+};
+
+export default LandingPage;
